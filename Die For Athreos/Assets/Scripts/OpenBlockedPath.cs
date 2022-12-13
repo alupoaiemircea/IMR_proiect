@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//done by me
 public class OpenBlockedPath : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -18,7 +19,7 @@ public class OpenBlockedPath : MonoBehaviour
     {
         if(animator != null)
         {
-            if (Input.GetKeyUp(KeyCode.O) && !open)
+            if (!open)
             {
                 animator.SetTrigger("TrOpenBlocked_path");
                 open = true;

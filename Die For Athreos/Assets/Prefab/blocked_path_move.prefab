@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5532704121782148877}
   - component: {fileID: 7722805142834834375}
   - component: {fileID: 4705226512985667462}
+  - component: {fileID: -8881358331078469211}
   m_Layer: 0
   m_Name: blocked_path_move
   m_TagString: Untagged
@@ -104,3 +105,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!64 &-8881358331078469211
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8082859809702234642}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -1579241630799410176, guid: a0563f4f200ac284791df9c515da3210, type: 3}
