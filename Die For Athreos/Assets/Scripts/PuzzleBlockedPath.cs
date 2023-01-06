@@ -39,7 +39,7 @@ public class PuzzleBlockedPath : MonoBehaviour
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, distance))
         {
-            Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * distance, Color.red);
+           
             if (hit.transform.tag == "PuzzleBlockedPath")
             {
                 //Debug.Log("i can grab it");
@@ -51,7 +51,7 @@ public class PuzzleBlockedPath : MonoBehaviour
         else
         {
             canGrab = false;
-            Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * distance, Color.blue);
+           
         }
     }
     private void PickUp()

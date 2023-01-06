@@ -11,14 +11,18 @@ public class PickUpSystem : MonoBehaviour
     GameObject right_currentWeapon;
     GameObject left_currentWeapon;
     GameObject wp;
+    public GameObject tangram_puzzle;
+   
     bool canGrab;
     bool sword=false;
-
+    
     string right_tem_tag = "";
     string left_tem_tag = "";
 
     public Animator left_hand_Animator;
     public Animator right_hand_Animator;
+
+    
     private void Update()
     {
         CheckWeapons();
@@ -30,8 +34,11 @@ public class PickUpSystem : MonoBehaviour
                 //{
                 //    Drop();
                 //}
-                PickUp();
+                    PickUp();
+                    
+               
             }
+           
         }
         if(right_currentWeapon != null)
         { if (Input.GetKeyDown(KeyCode.Q))
@@ -46,10 +53,10 @@ public class PickUpSystem : MonoBehaviour
     private void CheckWeapons()
     {
         RaycastHit hit;
-
-        if(Physics.Raycast(Camera.main.transform.position,Camera.main.transform.forward, out hit,distance))
+        if (Physics.Raycast(Camera.main.transform.position,Camera.main.transform.forward, out hit,distance))
         {
-            if(hit.transform.tag=="CanGrab")
+            Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * distance, Color.red);
+            if (hit.transform.tag=="CanGrab")
             {
                 Debug.Log("i can grab it");
                 canGrab = true;
@@ -62,6 +69,8 @@ public class PickUpSystem : MonoBehaviour
                 wp = hit.transform.gameObject;
                 sword = true;
             }
+            
+              
         }
         else
             canGrab = false;

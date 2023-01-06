@@ -29,16 +29,28 @@ public class PlayerAttackSword : MonoBehaviour
                 rightWeapon = child.gameObject;
             }
         }
+        foreach (Transform child in lefthand.transform)
+        {
+            if (child.tag == "InHand")
+            {
+                leftWeapon = child.gameObject;
+            }
+        }
 
         //if(rightWeapon!=null){
             if (Input.GetMouseButtonDown(1))
             {
                 right_hand_Animator.SetTrigger("IsAttacking");
-                Debug.Log("attacking");
+               
                 
             }
+            if (Input.GetMouseButtonDown(0))
+            {
+                left_hand_Animator.SetTrigger("IsAttacking");
 
-       // }
+
+            }
+        // }
 
     }
 

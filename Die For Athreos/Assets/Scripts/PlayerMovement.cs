@@ -9,10 +9,20 @@ public class PlayerMovement : MonoBehaviour
     float moveSide;
     float moveUp;
 
-    public float walkSpeed = 1f;
+    public float walkSpeed = 3f;
     public float sprintSpeed;
     float currentSpeed;
     Rigidbody rig;
+    private float _gravity = -2f;
+
+    public Transform orientation;
+    public Transform player_camera;
+    public float dashForce;
+    public float dashUpwardForce;
+    public float dashDuration;
+
+    public float dashCD;
+    private float dashCDtimer;
     void Start()
     {
         rig= GetComponent<Rigidbody>();
@@ -29,12 +39,29 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         else
-            currentSpeed = walkSpeed;
+        currentSpeed = walkSpeed;
         moveForward = Input.GetAxis("Vertical") * currentSpeed;
         moveSide = Input.GetAxis("Horizontal") * currentSpeed;
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        { Dash(); }
+        if(dashCDtimer > 0)
+        { dashCDtimer -= Time.deltaTime; }
     }
     private void FixedUpdate()
     {
-        rig.velocity=(transform.forward*moveForward)+(transform.right*moveSide);
+        rig.velocity=(transform.forward*moveForward)+(transform.right*moveSide)+new Vector3(0,_gravity,0);
+    }
+    private void Dash()
+    {
+        if (dashCDtimer > 0) { return; }
+        else dashCDtimer = dashCD;
+        Vector3 forceToApply = orientation.forward * dashForce + orientation.up * dashUpwardForce;
+        rig.AddForce(forceToApply, ForceMode.Impulse);
+        Invoke(nameof(resetDash), dashDuration);
+    }
+    private void resetDash()
+    {
+
     }
 }

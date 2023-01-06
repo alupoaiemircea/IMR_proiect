@@ -6,6 +6,10 @@ TagManager:
   tags:
   - CanGrab
   - PuzzleBlockedPath
+  - enemy
+  - sword
+  - InHand
+  - TangramPuzzle
   layers:
   - Default
   - TransparentFX

@@ -17,7 +17,7 @@ public class CheckCollisionWeapon : MonoBehaviour
     {
         timer += Time.deltaTime;
     }
-    private void OnCollisionEnter(Collision col)
+    private void OnTriggerEnter(Collider col)
     {
         
         if (CompareTag("InHand"))

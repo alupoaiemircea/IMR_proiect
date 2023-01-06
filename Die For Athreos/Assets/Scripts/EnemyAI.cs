@@ -25,12 +25,21 @@ public class EnemyAI : MonoBehaviour
     //Health
     public float maxHealth;
     public float currentHealth;
+    //animation
+    public Animator animator;
 
+    //flash red when hit
+    public float flashTime;
+    Color origionalColor;
+    SkinnedMeshRenderer render;
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
         agent=GetComponent<NavMeshAgent>();
         currentHealth=maxHealth;
+
+        render=gameObject.transform.Find("Mesh").GetComponent<SkinnedMeshRenderer>();
+        origionalColor = render.material.color;
     }
     
     // Update is called once per frame
@@ -85,6 +94,15 @@ public class EnemyAI : MonoBehaviour
         if(!alreadyAttacked)
         {
             //attack code here
+            animator.SetTrigger("isAttacking");
+            GameObject attack = new GameObject();
+            attack.AddComponent<Rigidbody>();
+            attack.AddComponent<BoxCollider>();
+            attack.tag = "attack";
+            attack.AddComponent<Collide>();
+            attack.transform.position=Vector3.MoveTowards(transform.position, player.position, 100f*Time.deltaTime);
+            
+            Debug.Log("monster attack");
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
@@ -97,10 +115,20 @@ public class EnemyAI : MonoBehaviour
     public void TakeDamage(float amount)
     {
         currentHealth-=amount;
+        FlashRed();
         Debug.Log(currentHealth);
         if(currentHealth <= 0)
         {
             Destroy(gameObject);
         }
+    }
+    void FlashRed()
+    {
+        render.material.color = Color.red;
+        Invoke("ResetColor", flashTime);
+    }
+    void ResetColor()
+    {
+        render.material.color = origionalColor;
     }
 }
