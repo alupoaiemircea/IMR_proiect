@@ -13,7 +13,7 @@ public class PlayerStats : MonoBehaviour
     //public float stamina;
     void Start()
     {
-        currentHealth = maxHealth;
+        currentHealth = 3;
         slider.value = currentHealth;
     }
 
@@ -37,6 +37,15 @@ public class PlayerStats : MonoBehaviour
             Destroy(gameObject);
             gameOverScreen.Setup();
             slider.value = 0;
+        }
+    }
+    public void Heal(int amount)
+    { 
+        currentHealth += amount;
+        slider.value = currentHealth;
+        if (currentHealth>maxHealth)
+        {
+            currentHealth=maxHealth;
         }
     }
 }

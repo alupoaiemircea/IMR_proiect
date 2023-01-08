@@ -15,17 +15,24 @@ public class PickUpSystem : MonoBehaviour
    
     bool canGrab;
     bool sword=false;
+    bool potion = false;
     
     string right_tem_tag = "";
     string left_tem_tag = "";
 
     public Animator left_hand_Animator;
     public Animator right_hand_Animator;
-
+ 
     
     private void Update()
     {
         CheckWeapons();
+        if(Input.GetKeyUp(KeyCode.R) && left_tem_tag=="HealthPotion")
+        {
+            Destroy(left_currentWeapon);
+            left_hand_Animator.SetTrigger("isDropping");
+            gameObject.GetComponent<PlayerStats>().Heal(5);
+        }
         if(canGrab)
         {
             if(Input.GetKeyDown(KeyCode.E))
@@ -44,10 +51,16 @@ public class PickUpSystem : MonoBehaviour
         { if (Input.GetKeyDown(KeyCode.Q))
             {
                 Drop();
-                sword = false;
+                if(right_tem_tag=="sword")
+                { sword = false; }
+                if(right_tem_tag=="HealthPotion")
+                { potion = false;
+
+                 }
+                
             } 
         }
-        if(left_currentWeapon != null || right_currentWeapon != null) { Switch(); }
+        if((left_currentWeapon != null || right_currentWeapon != null) && Input.GetKeyDown(KeyCode.F)) { Switch(); }
         
     }
     private void CheckWeapons()
@@ -69,8 +82,14 @@ public class PickUpSystem : MonoBehaviour
                 wp = hit.transform.gameObject;
                 sword = true;
             }
-            
-              
+            if (hit.transform.tag == "HealthPotion")
+            {
+                Debug.Log("health time");
+                canGrab = true;
+                wp = hit.transform.gameObject;
+                potion = true;
+            }
+
         }
         else
             canGrab = false;
@@ -92,12 +111,19 @@ public class PickUpSystem : MonoBehaviour
                 right_currentWeapon.transform.position = new Vector3(right_currentWeapon.transform.position.x, right_currentWeapon.transform.position.y, right_currentWeapon.transform.position.z);
             }
             else
-            { 
-                right_currentWeapon.transform.localEulerAngles = new Vector3(0f, 180f, 0f); 
-                     }
+            if (potion)
+            {
+                right_currentWeapon.transform.localEulerAngles = new Vector3(0f, 0f, 90f);
+                right_currentWeapon.transform.localPosition = new Vector3(0f, 0.015f, 0f);
+            }
+            else
+            {
+                right_currentWeapon.transform.localEulerAngles = new Vector3(0f, 180f, 0f);
+            }
             right_currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
         }
         else
+        if(wp!=right_currentWeapon)
         {
             left_hand_Animator.SetTrigger("isGrabbing");
             left_tem_tag = wp.tag;
@@ -109,13 +135,19 @@ public class PickUpSystem : MonoBehaviour
             if (sword)
             {
                 left_currentWeapon.transform.localEulerAngles = new Vector3(344.398956f, 304.720123f, 275.388397f);
-                left_currentWeapon.transform.position = new Vector3(left_currentWeapon.transform.position.x,left_currentWeapon.transform.position.y, left_currentWeapon.transform.position.z);
+                left_currentWeapon.transform.position = new Vector3(left_currentWeapon.transform.position.x, left_currentWeapon.transform.position.y, left_currentWeapon.transform.position.z);
+            }
+            else
+            if (potion)
+            {
+                left_currentWeapon.transform.localEulerAngles = new Vector3(0f, 0f, 90f);
+                left_currentWeapon.transform.localPosition = new Vector3(0f,0.015f,0f);
             }
             else
             {
-            left_currentWeapon.transform.localEulerAngles = new Vector3(0f, 180f, 0f); 
-                                                                          }
-           left_currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
+                left_currentWeapon.transform.localEulerAngles = new Vector3(0f, 180f, 0f);
+            }
+            left_currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
         }
         
     }
@@ -128,12 +160,13 @@ public class PickUpSystem : MonoBehaviour
         right_currentWeapon.GetComponent<Rigidbody>().isKinematic = false;
         right_currentWeapon.GetComponent<Rigidbody>().useGravity = true;
         right_currentWeapon = null;
+        right_tem_tag=null;
     }
 
     private void Switch()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-            {
+        
+            
             if(right_currentWeapon!=null && left_currentWeapon==null)
             {
                 right_hand_Animator.SetTrigger("isDropping");
@@ -145,8 +178,9 @@ public class PickUpSystem : MonoBehaviour
 
                 left_currentWeapon.transform.position = left_equipPosition.position;
                 left_currentWeapon.transform.parent = left_equipPosition;
-                left_currentWeapon.transform.position = new Vector3(left_currentWeapon.transform.position.x, left_currentWeapon.transform.position.y - 0.5f,left_currentWeapon.transform.position.z);
-                
+                left_currentWeapon.transform.position = new Vector3(left_currentWeapon.transform.position.x, left_currentWeapon.transform.position.y ,left_currentWeapon.transform.position.z);
+                left_tem_tag = right_tem_tag;
+                right_tem_tag = null;
             }
             else
             if (left_currentWeapon != null && right_currentWeapon==null)
@@ -160,25 +194,38 @@ public class PickUpSystem : MonoBehaviour
 
                 right_currentWeapon.transform.position = right_equipPosition.position;
                 right_currentWeapon.transform.parent = right_equipPosition;
-                right_currentWeapon.transform.position = new Vector3(right_currentWeapon.transform.position.x, right_currentWeapon.transform.position.y - 0.5f, right_currentWeapon.transform.position.z);
-                
+                right_currentWeapon.transform.position = new Vector3(right_currentWeapon.transform.position.x, right_currentWeapon.transform.position.y, right_currentWeapon.transform.position.z);
+                right_tem_tag=left_tem_tag;
+                left_tem_tag = null;
             }
             else
             {
                 GameObject temp = null;
                 temp = right_currentWeapon;
+                
+
                 right_currentWeapon = left_currentWeapon;
+               
                 left_currentWeapon = temp;
+              
 
                 right_currentWeapon.transform.position = left_equipPosition.position;
                 right_currentWeapon.transform.parent = left_equipPosition;
-                right_currentWeapon.transform.position = new Vector3(right_currentWeapon.transform.position.x, right_currentWeapon.transform.position.y - 0.5f, right_currentWeapon.transform.position.z);
+                right_currentWeapon.transform.localPosition = new Vector3(0f,0f,0f);
 
                 left_currentWeapon.transform.position = right_equipPosition.position;
                 left_currentWeapon.transform.parent = right_equipPosition;
-                left_currentWeapon.transform.position = new Vector3(left_currentWeapon.transform.position.x, left_currentWeapon.transform.position.y - 0.5f, left_currentWeapon.transform.position.z);
+                left_currentWeapon.transform.localPosition= new Vector3(0f, 0f, 0f);
+
+                string tag = null;
+                tag = left_tem_tag;
+                left_tem_tag = right_tem_tag;
+                right_tem_tag = tag;
+                Debug.Log(right_tem_tag);
             }
                
-        }
+        
     }
+
+   
 }
