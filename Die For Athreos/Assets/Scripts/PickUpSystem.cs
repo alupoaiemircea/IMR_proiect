@@ -14,49 +14,50 @@ public class PickUpSystem : MonoBehaviour
     public GameObject tangram_puzzle;
    
     bool canGrab;
-    bool sword=false;
-    bool potion = false;
-    
-    string right_tem_tag = "";
-    string left_tem_tag = "";
+
+    private int inHandLayer;
 
     public Animator left_hand_Animator;
     public Animator right_hand_Animator;
- 
-    
+
+    private void Awake()
+    {
+        inHandLayer= LayerMask.NameToLayer("InHand");
+
+    }
     private void Update()
     {
         CheckWeapons();
-        if(Input.GetKeyUp(KeyCode.R) && left_tem_tag=="HealthPotion")
+        if(Input.GetKeyUp(KeyCode.R) && right_currentWeapon.tag=="HealthPotion")
         {
-            Destroy(left_currentWeapon);
-            left_hand_Animator.SetTrigger("isDropping");
+            Destroy(right_currentWeapon);
+           right_hand_Animator.SetTrigger("isDropping");
             gameObject.GetComponent<PlayerStats>().Heal(5);
         }
         if(canGrab)
         {
-            if(Input.GetKeyDown(KeyCode.E))
+            if(left_currentWeapon==null || right_currentWeapon==null)
             {
-                //if(right_currentWeapon != null)
-                //{
-                //    Drop();
-                //}
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    //if(right_currentWeapon != null)
+                    //{
+                    //    Drop();
+                    //}
                     PickUp();
-                    
-               
+
+
+                }
             }
+            
            
         }
         if(right_currentWeapon != null)
         { if (Input.GetKeyDown(KeyCode.Q))
             {
+               
                 Drop();
-                if(right_tem_tag=="sword")
-                { sword = false; }
-                if(right_tem_tag=="HealthPotion")
-                { potion = false;
-
-                 }
+                
                 
             } 
         }
@@ -80,14 +81,14 @@ public class PickUpSystem : MonoBehaviour
                 //Debug.Log("sword time");
                 canGrab = true;
                 wp = hit.transform.gameObject;
-                sword = true;
+              
             }
             if (hit.transform.tag == "HealthPotion")
             {
                 Debug.Log("health time");
                 canGrab = true;
                 wp = hit.transform.gameObject;
-                potion = true;
+             
             }
 
         }
@@ -99,54 +100,24 @@ public class PickUpSystem : MonoBehaviour
         if(right_currentWeapon == null)
         {
             right_hand_Animator.SetTrigger("isGrabbing");
-            right_tem_tag = wp.tag;
-            wp.tag = "InHand";
             right_currentWeapon = wp;
-            right_currentWeapon.tag = "InHand";
+            right_currentWeapon.tag = wp.tag;
             right_currentWeapon.transform.position = right_equipPosition.position;
             right_currentWeapon.transform.parent = right_equipPosition;
-            if (sword)
-            {
-                right_currentWeapon.transform.localEulerAngles = new Vector3(0f, 120f, 90f);
-                right_currentWeapon.transform.position = new Vector3(right_currentWeapon.transform.position.x, right_currentWeapon.transform.position.y, right_currentWeapon.transform.position.z);
-            }
-            else
-            if (potion)
-            {
-                right_currentWeapon.transform.localEulerAngles = new Vector3(0f, 0f, 90f);
-                right_currentWeapon.transform.localPosition = new Vector3(0f, 0.015f, 0f);
-            }
-            else
-            {
-                right_currentWeapon.transform.localEulerAngles = new Vector3(0f, 180f, 0f);
-            }
+            right_currentWeapon.layer = inHandLayer;
+            RotateObj(ref right_currentWeapon,true);
             right_currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
         }
         else
         if(wp!=right_currentWeapon)
         {
             left_hand_Animator.SetTrigger("isGrabbing");
-            left_tem_tag = wp.tag;
-            wp.tag = "InHand";
             left_currentWeapon = wp;
-            left_currentWeapon.tag = "InHand";
+            left_currentWeapon.tag = wp.tag;
             left_currentWeapon.transform.position = left_equipPosition.position;
             left_currentWeapon.transform.parent = left_equipPosition;
-            if (sword)
-            {
-                left_currentWeapon.transform.localEulerAngles = new Vector3(344.398956f, 304.720123f, 275.388397f);
-                left_currentWeapon.transform.position = new Vector3(left_currentWeapon.transform.position.x, left_currentWeapon.transform.position.y, left_currentWeapon.transform.position.z);
-            }
-            else
-            if (potion)
-            {
-                left_currentWeapon.transform.localEulerAngles = new Vector3(0f, 0f, 90f);
-                left_currentWeapon.transform.localPosition = new Vector3(0f,0.015f,0f);
-            }
-            else
-            {
-                left_currentWeapon.transform.localEulerAngles = new Vector3(0f, 180f, 0f);
-            }
+            left_currentWeapon.layer = inHandLayer;
+            RotateObj(ref left_currentWeapon, false);
             left_currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
         }
         
@@ -154,13 +125,13 @@ public class PickUpSystem : MonoBehaviour
 
     private void Drop()
     {
+        int defalutLayer = LayerMask.NameToLayer("Default");
+        right_currentWeapon.layer=defalutLayer;
         right_hand_Animator.SetTrigger("isDropping");
-        right_currentWeapon.tag = right_tem_tag;
         right_currentWeapon.transform.parent = null;
         right_currentWeapon.GetComponent<Rigidbody>().isKinematic = false;
         right_currentWeapon.GetComponent<Rigidbody>().useGravity = true;
         right_currentWeapon = null;
-        right_tem_tag=null;
     }
 
     private void Switch()
@@ -178,9 +149,8 @@ public class PickUpSystem : MonoBehaviour
 
                 left_currentWeapon.transform.position = left_equipPosition.position;
                 left_currentWeapon.transform.parent = left_equipPosition;
-                left_currentWeapon.transform.position = new Vector3(left_currentWeapon.transform.position.x, left_currentWeapon.transform.position.y ,left_currentWeapon.transform.position.z);
-                left_tem_tag = right_tem_tag;
-                right_tem_tag = null;
+                left_currentWeapon.transform.localPosition = new Vector3(0f,0f,0f);
+                RotateObj(ref left_currentWeapon, false);
             }
             else
             if (left_currentWeapon != null && right_currentWeapon==null)
@@ -194,9 +164,9 @@ public class PickUpSystem : MonoBehaviour
 
                 right_currentWeapon.transform.position = right_equipPosition.position;
                 right_currentWeapon.transform.parent = right_equipPosition;
-                right_currentWeapon.transform.position = new Vector3(right_currentWeapon.transform.position.x, right_currentWeapon.transform.position.y, right_currentWeapon.transform.position.z);
-                right_tem_tag=left_tem_tag;
-                left_tem_tag = null;
+                right_currentWeapon.transform.localPosition = new Vector3(0f,0f,0f);
+                RotateObj(ref right_currentWeapon, true);
+            
             }
             else
             {
@@ -209,23 +179,63 @@ public class PickUpSystem : MonoBehaviour
                 left_currentWeapon = temp;
               
 
-                right_currentWeapon.transform.position = left_equipPosition.position;
-                right_currentWeapon.transform.parent = left_equipPosition;
+                right_currentWeapon.transform.position = right_equipPosition.position;
+                right_currentWeapon.transform.parent = right_equipPosition;
                 right_currentWeapon.transform.localPosition = new Vector3(0f,0f,0f);
+                RotateObj(ref right_currentWeapon,true);
+            
 
-                left_currentWeapon.transform.position = right_equipPosition.position;
-                left_currentWeapon.transform.parent = right_equipPosition;
+                left_currentWeapon.transform.position = left_equipPosition.position;
+                left_currentWeapon.transform.parent = left_equipPosition;
                 left_currentWeapon.transform.localPosition= new Vector3(0f, 0f, 0f);
+                RotateObj(ref left_currentWeapon, false);
 
-                string tag = null;
-                tag = left_tem_tag;
-                left_tem_tag = right_tem_tag;
-                right_tem_tag = tag;
-                Debug.Log(right_tem_tag);
-            }
+
+
+        }
                
         
     }
 
-   
+    private void RotateObj(ref GameObject obj,bool rightHand)
+    {
+      if (rightHand)
+        {
+            if (obj.tag == "sword")
+            {
+                obj.transform.localEulerAngles = new Vector3(0f, 120f, 90f);
+                obj.transform.localPosition = new Vector3(0.0072f, 0.0081f, -0.0159f);
+            }
+            else
+              if (obj.tag == "HealthPotion")
+            {
+                obj.transform.localEulerAngles = new Vector3(0f, 0f, 90f);
+                obj.transform.localPosition = new Vector3(0f, 0.015f, 0f);
+            }
+            else
+            {
+                obj.transform.localEulerAngles = new Vector3(0f, 180f, 0f);
+            }
+        }
+      else
+        {
+            if (obj.tag == "sword")
+            {
+                //obj.transform.localEulerAngles = new Vector3(344.398956f, 304.720123f, 275.388397f);
+                obj.transform.localEulerAngles = new Vector3(-6.1f, -57.222f, -101.183f);
+                obj.transform.localPosition = new Vector3(0.0056f,0.0011f,-0.0152f);
+            }
+            else
+            if (obj.tag == "HealthPotion")
+            {
+                obj.transform.localEulerAngles = new Vector3(0f, 0f, 90f);
+                obj.transform.localPosition = new Vector3(0f, 0.015f, 0f);
+            }
+            else
+            {
+                obj.transform.localEulerAngles = new Vector3(0f, 180f, 0f);
+            }
+        }
+        
+    }
 }

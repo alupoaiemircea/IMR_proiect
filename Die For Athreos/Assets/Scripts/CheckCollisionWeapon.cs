@@ -7,9 +7,11 @@ public class CheckCollisionWeapon : MonoBehaviour
     public float weaponDamage;
     public float time = 5f;
     public float timer;
+    private int inHandLayer;
     void Start()
     {
         timer = Time.time;
+        inHandLayer = LayerMask.NameToLayer("InHand");
     }
 
     // Update is called once per frame
@@ -20,7 +22,7 @@ public class CheckCollisionWeapon : MonoBehaviour
     private void OnTriggerEnter(Collider col)
     {
         
-        if (CompareTag("InHand"))
+        if (gameObject.layer==inHandLayer)
         {
             if (col.gameObject.tag == "enemy" && timer >= time)
             {

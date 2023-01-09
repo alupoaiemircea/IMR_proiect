@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float walkSpeed = 3f;
     public float sprintSpeed;
-    float currentSpeed;
+    public float currentSpeed;
     Rigidbody rig;
     private float _gravity = -2f;
 
@@ -23,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
 
     public float dashCD;
     private float dashCDtimer;
+
+    public bool fatigue=false;
     void Start()
     {
         rig= GetComponent<Rigidbody>();
@@ -31,15 +33,23 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if(fatigue && Input.GetKeyUp(KeyCode.Space))
         {
-            if (currentSpeed != sprintSpeed)
+            fatigue=false;
+        }
+        if (Input.GetKey(KeyCode.Space) && gameObject.GetComponent<PlayerStats>().GetStamina()>0 && !fatigue)
+        {
+            if (currentSpeed != sprintSpeed && !fatigue)
             {
                 currentSpeed = sprintSpeed;
             }
+            gameObject.GetComponent<PlayerStats>().SetSprinting(true);
         }
         else
-        currentSpeed = walkSpeed;
+        { currentSpeed = walkSpeed;
+            gameObject.GetComponent<PlayerStats>().SetSprinting(false);
+        }
+
         moveForward = Input.GetAxis("Vertical") * currentSpeed;
         moveSide = Input.GetAxis("Horizontal") * currentSpeed;
 
@@ -64,4 +74,9 @@ public class PlayerMovement : MonoBehaviour
     {
 
     }
+    public void SetCurrentSpeed(float value)
+    { currentSpeed = value; }
+
+    public float GetWalkSpeed()
+    { return walkSpeed; }
 }

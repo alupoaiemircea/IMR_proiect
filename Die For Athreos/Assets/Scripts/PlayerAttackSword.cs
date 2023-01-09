@@ -13,43 +13,59 @@ public class PlayerAttackSword : MonoBehaviour
     public Animator left_hand_Animator;
     public Animator right_hand_Animator;
 
+    private int inHandLayer;
+    private bool foundR;
+    private bool foundL;
+
+    public bool fatigue=false;
+
     void Start()
     {
-        
+        inHandLayer = LayerMask.NameToLayer("InHand");
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        foundR = false;
+        foundL = false;
         foreach (Transform child in righthand.transform)
         {
-            if (child.tag == "InHand")
+            if (child.gameObject.layer == inHandLayer)
             {
                 rightWeapon = child.gameObject;
+                foundR = true;
             }
+        }
+        if(!foundR)
+        {
+            rightWeapon = null;
         }
         foreach (Transform child in lefthand.transform)
         {
-            if (child.tag == "InHand")
+            if (child.gameObject.layer == inHandLayer)
             {
                 leftWeapon = child.gameObject;
+                foundL |= true;
             }
         }
-
+        if (!foundL)
+        {
+            leftWeapon = null;
+        }
         //if(rightWeapon!=null){
-            if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && rightWeapon!=null &&!fatigue)
             {
                 right_hand_Animator.SetTrigger("IsAttacking");
-               
+                gameObject.GetComponent<PlayerStats>().SetAttacking(true);
                 
             }
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && leftWeapon!=null && !fatigue)
             {
                 left_hand_Animator.SetTrigger("IsAttacking");
+                gameObject.GetComponent<PlayerStats>().SetAttacking(true);
 
-
-            }
+        }
         // }
 
     }
