@@ -83,6 +83,20 @@ public class PickUpSystem : MonoBehaviour
                 wp = hit.transform.gameObject;
               
             }
+            if (hit.transform.tag == "scepter")
+            {
+                
+                canGrab = true;
+                wp = hit.transform.gameObject;
+
+            }
+            if (hit.transform.tag == "dagger")
+            {
+
+                canGrab = true;
+                wp = hit.transform.gameObject;
+
+            }
             if (hit.transform.tag == "HealthPotion")
             {
                 Debug.Log("health time");
@@ -213,6 +227,18 @@ public class PickUpSystem : MonoBehaviour
                 obj.transform.localPosition = new Vector3(0f, 0.015f, 0f);
             }
             else
+              if (obj.tag == "scepter")
+            {
+                obj.transform.localEulerAngles = new Vector3(0f, 30f, 90f);
+                obj.transform.localPosition = new Vector3(-0.0509f, 0.014f, 0.0216f);
+            }
+            else
+              if (obj.tag == "dagger")
+            {
+                obj.transform.localEulerAngles = new Vector3(160f, 30f, 90f);
+                obj.transform.localPosition = new Vector3(-0.0257f, 0.0081f, 0.01f);
+            }
+            else
             {
                 obj.transform.localEulerAngles = new Vector3(0f, 180f, 0f);
             }
@@ -230,6 +256,18 @@ public class PickUpSystem : MonoBehaviour
             {
                 obj.transform.localEulerAngles = new Vector3(0f, 0f, 90f);
                 obj.transform.localPosition = new Vector3(0f, 0.015f, 0f);
+            }
+            else
+              if (obj.tag == "scepter")
+            {
+                obj.transform.localEulerAngles = new Vector3(0f, 30f, 90f);
+                obj.transform.localPosition = new Vector3(-0.0509f, 0.014f, 0.0216f);
+            }
+            else
+              if (obj.tag == "dagger")
+            {
+                obj.transform.localEulerAngles = new Vector3(160f, 30f, 90f);
+                obj.transform.localPosition = new Vector3(-0.0257f, 0.0081f, 0.01f);
             }
             else
             {

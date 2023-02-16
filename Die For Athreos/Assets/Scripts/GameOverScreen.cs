@@ -17,5 +17,7 @@ public class GameOverScreen : MonoBehaviour
     public void Exit()
     {
         SceneManager.LoadScene("MainMenu");
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("MainMenu"));
+        SceneManager.UnloadSceneAsync("MainScene");
     }
 }

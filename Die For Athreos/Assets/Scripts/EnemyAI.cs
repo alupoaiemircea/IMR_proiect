@@ -27,7 +27,7 @@ public class EnemyAI : MonoBehaviour
     public float currentHealth;
     //animation
     public Animator animator;
-
+    public int xp = 4;
     //flash red when hit
     public float flashTime;
     Color origionalColor;
@@ -120,6 +120,7 @@ public class EnemyAI : MonoBehaviour
         if(currentHealth <= 0)
         {
             Destroy(gameObject);
+            player.gameObject.GetComponent<PlayerStats>().AddXp(xp);
         }
     }
     void FlashRed()

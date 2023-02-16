@@ -8,10 +8,12 @@ public class CheckCollisionWeapon : MonoBehaviour
     public float time = 5f;
     public float timer;
     private int inHandLayer;
+    public GameObject player;
     void Start()
     {
         timer = Time.time;
         inHandLayer = LayerMask.NameToLayer("InHand");
+   
     }
 
     // Update is called once per frame
@@ -26,7 +28,7 @@ public class CheckCollisionWeapon : MonoBehaviour
         {
             if (col.gameObject.tag == "enemy" && timer >= time)
             {
-                col.gameObject.GetComponent<EnemyAI>().TakeDamage(weaponDamage);
+                col.gameObject.GetComponent<EnemyAI>().TakeDamage(weaponDamage+ player.GetComponent<PlayerStats>().GetAttackDamage());
                 timer = 0;
             }
             

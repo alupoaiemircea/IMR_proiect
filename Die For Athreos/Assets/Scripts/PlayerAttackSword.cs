@@ -56,13 +56,17 @@ public class PlayerAttackSword : MonoBehaviour
         //if(rightWeapon!=null){
         if (Input.GetMouseButtonDown(1) && rightWeapon!=null &&!fatigue)
             {
-                right_hand_Animator.SetTrigger("IsAttacking");
+              if(righthand.tag=="sword")
+             { right_hand_Animator.SetTrigger("IsAttacking"); }
+                
                 gameObject.GetComponent<PlayerStats>().SetAttacking(true);
                 
             }
             if (Input.GetMouseButtonDown(0) && leftWeapon!=null && !fatigue)
             {
-                left_hand_Animator.SetTrigger("IsAttacking");
+              if (righthand.tag == "sword")
+              { left_hand_Animator.SetTrigger("IsAttacking"); }
+               
                 gameObject.GetComponent<PlayerStats>().SetAttacking(true);
 
         }
