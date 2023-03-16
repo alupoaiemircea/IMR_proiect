@@ -9,37 +9,49 @@ using Newtonsoft.Json;
 //https://www.youtube.com/watch?v=f81F2onEtY8 for stamina (adapted)
 public class PlayerStats : MonoBehaviour
 {
+    [Header("Health")]
     public float maxHealth;
-    public float maxStamina;
-    public float attackDamage;
-    bool escMenu = false;
-
-
+    public Slider sliderHealth;
     public float currentHealth;
     public AudioSource player_hurt = null;
-    public Slider sliderHealth;
-    public GameOverScreen gameOverScreen;
-    public EscMenuScreen escMenuScreen;
+
+    [Header("Stamina")]
+    public float maxStamina;
     public Slider sliderStamina;
-   
-    
     public float currentStamina;
-
-    private bool sprinting=false;
-    private bool attacking=false;
-    private bool penalty = false;
-
     public float sprintvalue;
-    public float attackValue;
-    public float increaseStaminaValue=2;
-
-    public int current_lvl=1;
-    public float current_xp;
-    private float xp_to_lvl_up=10;
-    public int lvl_up_points=0;
+    private bool sprinting = false;
+    private bool attacking = false;
+    private bool penalty = false;
+    public float increaseStaminaValue = 2f;
     public AudioSource tiredSoundEffect;
+
+    [Header("Attack")]
+    public float attackDamage;
+    public float attackValue;
+
+    [Header("Frenzy")]
+    private float maxFrenzy;
+    public Slider sliderFrenzy;
+    private float currentFrenzy=0;
+    private bool frenzyModeOn = false;
+    public float frenzyTimer = 10f;
+    public int increaseFrenzyValue = 1;
+    public float frenzyDecreaseTime=10;
+    private bool timerIsRunning=true;
+
+    [Header("Xp")]
+    public int current_lvl = 1;
+    public float current_xp;
+    private float xp_to_lvl_up = 10f;
+    public int lvl_up_points = 0;
     public GameObject lvl_up_indicator;
 
+    [Header("UI")]
+    bool escMenu = false;
+    public GameOverScreen gameOverScreen;
+    public EscMenuScreen escMenuScreen;
+  
     public void LoadStats()
     {
         string data = File.ReadAllText("playerStatsStart");
@@ -60,12 +72,28 @@ public class PlayerStats : MonoBehaviour
         current_lvl = 1;
         current_xp = 0;
         lvl_up_points = 0;
+        maxFrenzy = 10;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(penalty)
+        if (timerIsRunning)
+        {
+            if (frenzyDecreaseTime > 0)
+            {
+                frenzyDecreaseTime -= Time.deltaTime;
+            }
+            else
+            {
+                Debug.Log("Time has run out!");
+                frenzyDecreaseTime = 0;
+                DecreaseFrenzy();
+            }
+        }
+
+
+        if (penalty)
         {
             FatiquePenalty();
         }
@@ -79,7 +107,7 @@ public class PlayerStats : MonoBehaviour
         {
             DecreaseStamina(attackValue);
             attacking = false;
-           
+            IncreaseFrenzy();
         }
         else
         if(currentStamina<maxStamina && !gameObject.GetComponent<PlayerMovement>().fatigue)
@@ -97,6 +125,7 @@ public class PlayerStats : MonoBehaviour
             else
             escMenuScreen.Setup();
         }
+       
     }
     public void TakeDamage(float amount)
     {
@@ -139,28 +168,75 @@ public class PlayerStats : MonoBehaviour
     }
     private void DecreaseStamina(float value)
     {
-        if (currentStamina != 0)
+        if (!frenzyModeOn)
         {
-            currentStamina -= value * Time.deltaTime;
-        }
-        if(currentStamina < 0.05f)
-        {
-            //Debug.Log("FATIGUE");
-           
-             tiredSoundEffect.Play(); 
-
-            if (Input.GetKey(KeyCode.Space))
+            if (currentStamina != 0)
             {
-                gameObject.GetComponent<PlayerMovement>().fatigue = true;
-                gameObject.GetComponent<PlayerMovement>().SetCurrentSpeed(gameObject.GetComponent<PlayerMovement>().GetWalkSpeed());
+                currentStamina -= value * Time.deltaTime;
             }
-            gameObject.GetComponent<PlayerAttackSword>().fatigue = true;
-            penalty = true;
+            if (currentStamina < 0.05f)
+            {
+                //Debug.Log("FATIGUE");
+
+                tiredSoundEffect.Play();
+
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    gameObject.GetComponent<PlayerMovement>().fatigue = true;
+                    gameObject.GetComponent<PlayerMovement>().SetCurrentSpeed(gameObject.GetComponent<PlayerMovement>().GetWalkSpeed());
+                }
+                gameObject.GetComponent<PlayerAttackSword>().fatigue = true;
+                penalty = true;
+            }
+            if (currentStamina < 0)
+            {
+                currentStamina = 0.0001f;
+            }
         }
-        if(currentStamina<0)
+    }
+
+    public void IncreaseFrenzy()
+    {
+        if (currentFrenzy < maxFrenzy)
         {
-            currentStamina = 0.0001f;
+            currentFrenzy += increaseFrenzyValue;
+            sliderFrenzy.value = currentFrenzy;
+            Debug.Log("increasing frenzy");
         }
+        if(currentFrenzy>=maxFrenzy)
+        {
+            currentFrenzy = maxFrenzy;
+            sliderFrenzy.value = currentFrenzy;
+            FrenzyMode();
+            Invoke(nameof(FrenzyModeReset), frenzyTimer);
+        }
+    }
+
+    public void DecreaseFrenzy()
+    {
+        if(currentFrenzy>0)
+        {
+            currentFrenzy -= increaseFrenzyValue;
+            sliderFrenzy.value = currentFrenzy;
+        }
+        if(currentFrenzy < 0)
+        {
+            currentFrenzy = 0;
+            sliderFrenzy.value = currentFrenzy;         
+        }
+    }
+
+    private void FrenzyMode()
+    {
+        currentStamina = maxStamina;
+        attackDamage=attackDamage*2;
+        frenzyModeOn = true;
+    }
+
+    private void FrenzyModeReset()
+    {
+        frenzyModeOn= false;
+        attackDamage = attackDamage/2;
     }
     private void FatiquePenalty()
     {

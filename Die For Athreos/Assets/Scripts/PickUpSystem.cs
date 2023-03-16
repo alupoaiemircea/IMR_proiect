@@ -8,8 +8,8 @@ public class PickUpSystem : MonoBehaviour
     public Transform left_equipPosition;
     public Transform right_equipPosition;
     public float distance = 10f;
-    GameObject right_currentWeapon;
-    GameObject left_currentWeapon;
+    GameObject right_currentWeapon = null;
+    GameObject left_currentWeapon = null;
     GameObject wp;
     public GameObject tangram_puzzle;
    
@@ -230,7 +230,7 @@ public class PickUpSystem : MonoBehaviour
               if (obj.tag == "scepter")
             {
                 obj.transform.localEulerAngles = new Vector3(0f, 30f, 90f);
-                obj.transform.localPosition = new Vector3(-0.0509f, 0.014f, 0.0216f);
+                obj.transform.localPosition = new Vector3(0.0324f, 0.0089f, -0.0266f);
             }
             else
               if (obj.tag == "dagger")
@@ -261,7 +261,7 @@ public class PickUpSystem : MonoBehaviour
               if (obj.tag == "scepter")
             {
                 obj.transform.localEulerAngles = new Vector3(0f, 30f, 90f);
-                obj.transform.localPosition = new Vector3(-0.0509f, 0.014f, 0.0216f);
+                obj.transform.localPosition = new Vector3(0.0324f, 0.0089f, -0.0266f);
             }
             else
               if (obj.tag == "dagger")

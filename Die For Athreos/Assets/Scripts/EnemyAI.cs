@@ -5,8 +5,8 @@ using UnityEngine.AI;
 //preluat: https://www.youtube.com/watch?v=UjkSFoLxesw&t=267s
 public class EnemyAI : MonoBehaviour
 {
-    public NavMeshAgent agent;
-    public Transform player;
+    private NavMeshAgent agent;
+    private Transform player;
     public LayerMask whatIsGround, whatIsPlayer;
 
     //patrolling
@@ -27,6 +27,7 @@ public class EnemyAI : MonoBehaviour
     public float currentHealth;
     //animation
     public Animator animator;
+    public Animator boss_animator;
     public int xp = 4;
     //flash red when hit
     public float flashTime;
@@ -60,7 +61,10 @@ public class EnemyAI : MonoBehaviour
 
         if(walkPointSet)
             agent.SetDestination(walkPoint);
-
+        if(gameObject.tag=="boss")
+        {
+            boss_animator.SetTrigger("walking");
+        }
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
         //WalkPoint reached
