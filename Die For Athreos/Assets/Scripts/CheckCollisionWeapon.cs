@@ -30,6 +30,8 @@ public class CheckCollisionWeapon : MonoBehaviour
             {
                 col.gameObject.GetComponent<EnemyAI>().TakeDamage(weaponDamage+ player.GetComponent<PlayerStats>().GetAttackDamage());
                 timer = 0;
+                player.GetComponent<PlayerStats>().IncreaseFrenzy();
+                player.GetComponent<PlayerStats>().ResetFrenzyTimer();
             }
             
 

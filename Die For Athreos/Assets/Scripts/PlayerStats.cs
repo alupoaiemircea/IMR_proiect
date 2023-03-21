@@ -37,8 +37,8 @@ public class PlayerStats : MonoBehaviour
     private bool frenzyModeOn = false;
     public float frenzyTimer = 10f;
     public int increaseFrenzyValue = 1;
-    public float frenzyDecreaseTime=10;
-    private bool timerIsRunning=true;
+    public float frenzyDecreaseTime=5f;
+    public GameObject x2DamageText;
 
     [Header("Xp")]
     public int current_lvl = 1;
@@ -65,7 +65,7 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         LoadStats();
-        currentHealth = 3;
+        currentHealth = maxHealth;
         sliderHealth.value = currentHealth;
         currentStamina = maxStamina;
         sliderStamina.value = maxStamina;
@@ -78,20 +78,9 @@ public class PlayerStats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (timerIsRunning)
-        {
-            if (frenzyDecreaseTime > 0)
-            {
-                frenzyDecreaseTime -= Time.deltaTime;
-            }
-            else
-            {
-                Debug.Log("Time has run out!");
-                frenzyDecreaseTime = 0;
-                DecreaseFrenzy();
-            }
-        }
 
+        DecreaseFrenzyTimer();   
+       
 
         if (penalty)
         {
@@ -107,7 +96,7 @@ public class PlayerStats : MonoBehaviour
         {
             DecreaseStamina(attackValue);
             attacking = false;
-            IncreaseFrenzy();
+            
         }
         else
         if(currentStamina<maxStamina && !gameObject.GetComponent<PlayerMovement>().fatigue)
@@ -197,21 +186,42 @@ public class PlayerStats : MonoBehaviour
 
     public void IncreaseFrenzy()
     {
-        if (currentFrenzy < maxFrenzy)
+        if (!frenzyModeOn)
         {
-            currentFrenzy += increaseFrenzyValue;
-            sliderFrenzy.value = currentFrenzy;
-            Debug.Log("increasing frenzy");
+            if (currentFrenzy < maxFrenzy)
+            {
+                currentFrenzy += increaseFrenzyValue;
+                sliderFrenzy.value = currentFrenzy;
+
+            }
+            if (currentFrenzy >= maxFrenzy)
+            {
+                currentFrenzy = maxFrenzy;
+                sliderFrenzy.value = currentFrenzy;
+                FrenzyMode();
+                Invoke(nameof(FrenzyModeReset), frenzyTimer);
+            }
         }
-        if(currentFrenzy>=maxFrenzy)
-        {
-            currentFrenzy = maxFrenzy;
-            sliderFrenzy.value = currentFrenzy;
-            FrenzyMode();
-            Invoke(nameof(FrenzyModeReset), frenzyTimer);
-        }
+        
     }
 
+    public void ResetFrenzyTimer()
+    {
+        frenzyDecreaseTime = 5f;
+    }
+    private void DecreaseFrenzyTimer()
+    {
+        if (frenzyDecreaseTime > 0)
+        {
+            frenzyDecreaseTime -= Time.deltaTime;
+        }
+        else
+        {
+
+            frenzyDecreaseTime = 5f;
+            DecreaseFrenzy();
+        }
+    }
     public void DecreaseFrenzy()
     {
         if(currentFrenzy>0)
@@ -231,12 +241,16 @@ public class PlayerStats : MonoBehaviour
         currentStamina = maxStamina;
         attackDamage=attackDamage*2;
         frenzyModeOn = true;
+        x2DamageText.SetActive(true);
     }
 
     private void FrenzyModeReset()
     {
         frenzyModeOn= false;
         attackDamage = attackDamage/2;
+        sliderFrenzy.value = 0;
+        currentFrenzy = 0;
+        x2DamageText.SetActive(false);
     }
     private void FatiquePenalty()
     {

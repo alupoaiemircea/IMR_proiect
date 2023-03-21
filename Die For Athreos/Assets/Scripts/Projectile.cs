@@ -18,6 +18,8 @@ public class Projectile : MonoBehaviour
         {
             
             col.gameObject.GetComponent<EnemyAI>().TakeDamage(player.GetComponent<PlayerStats>().attackDamage);
+            player.GetComponent<PlayerStats>().IncreaseFrenzy();
+            player.GetComponent<PlayerStats>().ResetFrenzyTimer();
         }
         Destroy(gameObject);
     }
