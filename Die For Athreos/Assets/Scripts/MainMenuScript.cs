@@ -30,21 +30,21 @@ public class MainMenuScript : MonoBehaviour
     {
         PlayerInfo playerInfo = new PlayerInfo(6, 13, 2f);
         string jsonString = JsonConvert.SerializeObject(playerInfo);
-        File.WriteAllText("playerStatsStart", jsonString);
+        File.WriteAllText("playerStatsStart.txt", jsonString);
         SceneManager.LoadScene("MainScene");
     }
     public void SelectMage()
     {
         PlayerInfo playerInfo = new PlayerInfo(14, 6, 0.5f);
         string jsonString = JsonConvert.SerializeObject(playerInfo);
-        File.WriteAllText("playerStatsStart", jsonString);
+        File.WriteAllText("playerStatsStart.txt", jsonString);
         SceneManager.LoadScene("MainScene");
     }
     public void SelectWarrior()
     {
        PlayerInfo playerInfo = new PlayerInfo(10,10,1);
         string jsonString = JsonConvert.SerializeObject(playerInfo);
-        File.WriteAllText("playerStatsStart", jsonString);
+        File.WriteAllText("playerStatsStart.txt", jsonString);
         SceneManager.LoadScene("MainScene");
     }
 }

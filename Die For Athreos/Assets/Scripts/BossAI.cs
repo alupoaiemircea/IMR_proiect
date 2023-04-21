@@ -42,7 +42,7 @@ public class BossAI : MonoBehaviour
         agent=GetComponent<NavMeshAgent>();
         currentHealth=maxHealth;
         healthSlider.value = maxHealth;
-        render =gameObject.transform.Find("Mesh").GetComponent<SkinnedMeshRenderer>();
+        render =gameObject.transform.Find("BODY.001").GetComponent<SkinnedMeshRenderer>();
         origionalColor = render.material.color;
     }
     
@@ -57,6 +57,7 @@ public class BossAI : MonoBehaviour
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
         if (playerInSightRange && playerInAttackRange) AttackPlayer();
     }
+    
 
     private void Patrolling()
     {
@@ -100,14 +101,20 @@ public class BossAI : MonoBehaviour
         if(!alreadyAttacked)
         {
             //attack code here
-          
+            
             GameObject attack = new GameObject();
             attack.AddComponent<Rigidbody>();
             attack.AddComponent<BoxCollider>();
             attack.tag = "attack";
             attack.AddComponent<Collide>();
             attack.transform.position=Vector3.MoveTowards(transform.position, player.position, 100f*Time.deltaTime);
-            
+
+            var rnd = new System.Random();
+            int i = rnd.Next(0, 2);
+            if (i == 1)
+            { boss_animator.SetTrigger("attack_vertical"); }
+            else
+            { boss_animator.SetTrigger("attack_horizontal"); }
             Debug.Log("monster attack");
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);

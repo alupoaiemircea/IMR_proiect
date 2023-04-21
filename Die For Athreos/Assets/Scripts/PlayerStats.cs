@@ -21,10 +21,12 @@ public class PlayerStats : MonoBehaviour
     public float currentStamina;
     public float sprintvalue;
     private bool sprinting = false;
-    private bool attacking = false;
-    private bool penalty = false;
+    public bool attacking = false;
+    public bool penalty = false;
     public float increaseStaminaValue = 2f;
+    public float dashingValue = 10f;
     public AudioSource tiredSoundEffect;
+    private bool dashing=false;
 
     [Header("Attack")]
     public float attackDamage;
@@ -54,7 +56,7 @@ public class PlayerStats : MonoBehaviour
   
     public void LoadStats()
     {
-        string data = File.ReadAllText("playerStatsStart");
+        string data = File.ReadAllText("playerStatsStart.txt");
         PlayerInfo playerInfo = JsonConvert.DeserializeObject<PlayerInfo>(data);
         SetMaxHealth(playerInfo.maxHealth);
         SetAttackDamage(playerInfo.attackDamage);
@@ -71,7 +73,7 @@ public class PlayerStats : MonoBehaviour
         sliderStamina.value = maxStamina;
         current_lvl = 1;
         current_xp = 0;
-        lvl_up_points = 0;
+        //lvl_up_points = 0;
         maxFrenzy = 10;
     }
 
@@ -79,13 +81,10 @@ public class PlayerStats : MonoBehaviour
     void Update()
     {
 
-        DecreaseFrenzyTimer();   
-       
+        DecreaseFrenzyTimer();
+        dashing = false;
 
-        if (penalty)
-        {
-            FatiquePenalty();
-        }
+        
         if(sprinting)
         {
             DecreaseStamina(sprintvalue);
@@ -97,6 +96,12 @@ public class PlayerStats : MonoBehaviour
             DecreaseStamina(attackValue);
             attacking = false;
             
+        }
+        else
+            if (gameObject.GetComponent<PlayerMovement>().dashing && !dashing)
+        {
+            DecreaseStamina(dashingValue);
+            dashing = true;
         }
         else
         if(currentStamina<maxStamina && !gameObject.GetComponent<PlayerMovement>().fatigue)
@@ -118,19 +123,22 @@ public class PlayerStats : MonoBehaviour
     }
     public void TakeDamage(float amount)
     {
-        player_hurt.Play();
-        currentHealth -= amount;
-        sliderHealth.value = currentHealth;
-        //Debug.Log(currentHealth);
-        if (currentHealth <= 0)
+        if (!gameObject.GetComponent<PlayerMovement>().dashing)
         {
-            Camera.main.transform.parent = null;
-            Camera.main.GetComponent<CameraLook>().enabled = false;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            Destroy(gameObject);
-            gameOverScreen.Setup();
-            sliderHealth.value = 0;
+            player_hurt.Play();
+            currentHealth -= amount/100;
+            sliderHealth.value = currentHealth;
+            //Debug.Log(currentHealth);
+            if (currentHealth <= 0)
+            {
+                Camera.main.transform.parent = null;
+                Camera.main.GetComponent<CameraLook>().enabled = false;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                Destroy(gameObject);
+                gameOverScreen.Setup();
+                sliderHealth.value = 0;
+            }
         }
     }
     public void Heal(int amount)
@@ -175,7 +183,13 @@ public class PlayerStats : MonoBehaviour
                     gameObject.GetComponent<PlayerMovement>().SetCurrentSpeed(gameObject.GetComponent<PlayerMovement>().GetWalkSpeed());
                 }
                 gameObject.GetComponent<PlayerAttackSword>().fatigue = true;
+                gameObject.GetComponent<PlayerMovement>().fatigue = true;
+                
                 penalty = true;
+                FatiquePenalty();
+                Debug.Log("penalty="+(penalty));
+                
+                
             }
             if (currentStamina < 0)
             {

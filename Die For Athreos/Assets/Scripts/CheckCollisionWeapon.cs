@@ -33,6 +33,13 @@ public class CheckCollisionWeapon : MonoBehaviour
                 player.GetComponent<PlayerStats>().IncreaseFrenzy();
                 player.GetComponent<PlayerStats>().ResetFrenzyTimer();
             }
+            if(col.gameObject.tag == "boss" && timer >= time)
+            {
+                col.gameObject.GetComponent<BossAI>().TakeDamage(weaponDamage + player.GetComponent<PlayerStats>().GetAttackDamage());
+                timer = 0;
+                player.GetComponent<PlayerStats>().IncreaseFrenzy();
+                player.GetComponent<PlayerStats>().ResetFrenzyTimer();
+            }
             
 
         }

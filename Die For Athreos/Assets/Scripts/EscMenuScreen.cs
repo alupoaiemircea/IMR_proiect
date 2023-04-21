@@ -13,8 +13,10 @@ public class EscMenuScreen : MonoBehaviour
     public float attackIncrement = 0.5f;
 
     public GameObject healthBar;
+    public Slider healthBarSlider;
     public GameObject staminaBar;
-   
+    public Slider staminaBarSlider;
+
 
     public TextMeshProUGUI healthValue;
     public TextMeshProUGUI staminaValue;
@@ -122,6 +124,7 @@ public class EscMenuScreen : MonoBehaviour
             Vector2 pivot = rect.pivot;
             rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rect.sizeDelta.x + rect.sizeDelta.x * (0.1f*(maxValue-10)));
             rect.pivot = pivot;
+            //healthBarSlider.maxValue = maxValue;
         }
         else
         {
@@ -129,6 +132,7 @@ public class EscMenuScreen : MonoBehaviour
             Vector2 pivot = rect.pivot;
             rect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, rect.sizeDelta.x + rect.sizeDelta.x * (0.1f * (maxValue - 10)));
             rect.pivot = pivot;
+            //staminaBarSlider.maxValue = maxValue;
         }
     }
 }

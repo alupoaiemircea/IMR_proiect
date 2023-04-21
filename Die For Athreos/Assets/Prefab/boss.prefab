@@ -6089,7 +6089,7 @@ Transform:
   - {fileID: 5849981060354224275}
   - {fileID: 128917955364325673}
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &8777271999760036557
 CapsuleCollider:

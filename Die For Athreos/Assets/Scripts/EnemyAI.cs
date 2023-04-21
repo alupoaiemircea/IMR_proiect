@@ -17,7 +17,7 @@ public class EnemyAI : MonoBehaviour
     //Attacking 
     public float timeBetweenAttacks;
     bool alreadyAttacked;
-
+    public bool attacking=false;
     //States
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
@@ -52,7 +52,7 @@ public class EnemyAI : MonoBehaviour
 
         if (!playerInSightRange && !playerInAttackRange) Patrolling();
         if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        if (playerInSightRange && playerInAttackRange) AttackPlayer();
+        if (playerInSightRange && playerInAttackRange) { AttackPlayer(); attacking = true; }
     }
 
     private void Patrolling()
@@ -114,6 +114,7 @@ public class EnemyAI : MonoBehaviour
     private void ResetAttack()
     {
         alreadyAttacked=false;
+        attacking=false;
     }
      
     public void TakeDamage(float amount)

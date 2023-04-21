@@ -109,8 +109,10 @@ public class PlayerAttackSword : MonoBehaviour
         //attack.tag = "attack";
         //attack.AddComponent<Collide>();
         //attack.transform.position = Vector3.MoveTowards(transform.position, middle of screen, 100f * Time.deltaTime);
+        float x = Screen.width / 2f;
+        float y = Screen.height / 2f;
 
-        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Ray ray = cam.ViewportPointToRay(new Vector3(x, y, 0));
         RaycastHit hit;
 
         Vector3 targetPoint;
@@ -123,7 +125,7 @@ public class PlayerAttackSword : MonoBehaviour
         GameObject currentBullet = Instantiate(projectile, attackPoint.position, Quaternion.identity);
         currentBullet.transform.forward = direction.normalized;
 
-        currentBullet.GetComponent<Rigidbody>().AddForce(direction.normalized* shootForce,ForceMode.Impulse);
+        currentBullet.GetComponent<Rigidbody>().AddForce(direction.normalized*shootForce,ForceMode.Impulse);
 
         if(allowInvoke)
         {

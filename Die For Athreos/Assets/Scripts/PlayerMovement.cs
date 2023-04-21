@@ -25,7 +25,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 delayedForceToApply;
     public float dashCD;
     private float dashCDtimer;
-    private bool dashing = false;
+    public bool dashing = false;
+    private Vector2 moveInputDash;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -48,6 +49,10 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(gameObject.GetComponent<PlayerStats>().penalty==false)
+        {
+            fatigue=false;
+        }
         if (OnSlope())
         {
             rig.AddForce(GetSlopeMoveDirection() * currentSpeed, ForceMode.Force);
@@ -59,7 +64,8 @@ public class PlayerMovement : MonoBehaviour
         {
             rig.useGravity = false;
             currentSpeed = dashForce;
-            rig.drag = 0;
+            rig.drag = 0; 
+            Dash();
         }
         if (fatigue && Input.GetKeyUp(KeyCode.Space))
         {
@@ -81,11 +87,16 @@ public class PlayerMovement : MonoBehaviour
         moveForward = Input.GetAxisRaw("Vertical") * currentSpeed;
         moveSide = Input.GetAxisRaw("Horizontal") * currentSpeed;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        { Dash(); }
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !fatigue && dashCDtimer==0)
+        {       
+            dashing = true;
+            Invoke(nameof(resetDash), dashDuration);
+            dashCDtimer = dashCD;
+        }
         
         if (dashCDtimer > 0)
         { dashCDtimer -= Time.deltaTime; }
+        else { dashCDtimer = 0; }
         SpeedControl();
         CheckGrounded();
         rig.useGravity = !OnSlope();
@@ -127,24 +138,33 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Dash()
     {
-        dashing = true;
-        if (dashCDtimer > 0) { return; }
-        else dashCDtimer = dashCD;
-        Vector3 forceToApply = orientation.forward * dashForce + orientation.up * dashUpwardForce;
-        delayedForceToApply = forceToApply;
-        Invoke(nameof(DelayedDashForceToApply), 0.025f);
+        moveInputDash.x = Input.GetAxisRaw("Vertical");
+        moveInputDash.y = Input.GetAxisRaw("Horizontal");
+        moveInputDash.Normalize();
+
+        //dashing = true;
+        
+        //Vector3 forceToApply = orientation.forward * dashForce + orientation.up * dashUpwardForce;
+        //delayedForceToApply = forceToApply;
+        //Invoke(nameof(DelayedDashForceToApply), 0.025f);
         //rig.AddForce(forceToApply, ForceMode.Impulse);
-        Invoke(nameof(resetDash), dashDuration);
+
+        gameObject.transform.Translate(new Vector3(moveInputDash.y,0,moveInputDash.x) * dashForce * Time.deltaTime);
+        //rig.MovePosition(transform.position+ transform.forward * dashForce * Time.deltaTime);
+        
+        
     }
 
     private void DelayedDashForceToApply()
     {
+        rig.velocity = moveInputDash*dashForce;
         rig.AddForce(delayedForceToApply, ForceMode.Impulse);
     }
     private void resetDash()
     {
         dashing=false;
         rig.useGravity = true;
+       
     }
     public void SetCurrentSpeed(float value)
     { currentSpeed = value; }
