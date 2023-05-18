@@ -31,9 +31,12 @@ public class PlayerAttackSword : MonoBehaviour
         inHandLayer = LayerMask.NameToLayer("InHand");
     }
 
+
+    
     // Update is called once per frame
     void Update()
     {
+        
         foundR = false;
         foundL = false;
         foreach (Transform child in righthand.transform)
@@ -89,7 +92,7 @@ public class PlayerAttackSword : MonoBehaviour
                 left_hand_Animator.SetTrigger("attackDagger"); 
                  }
             else
-                if (rightWeapon.tag == "scepter")
+                if (leftWeapon.tag == "scepter")
             {
                 ShootProjectile();
             }
@@ -112,22 +115,21 @@ public class PlayerAttackSword : MonoBehaviour
         float x = Screen.width / 2f;
         float y = Screen.height / 2f;
 
-        Ray ray = cam.ViewportPointToRay(new Vector3(x, y, 0));
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
         Vector3 targetPoint;
         if (Physics.Raycast(ray, out hit))
             targetPoint = hit.point;
         else
-            targetPoint = ray.GetPoint(75);
+            targetPoint = ray.GetPoint(50);
 
         Vector3 direction = targetPoint - attackPoint.position;
         GameObject currentBullet = Instantiate(projectile, attackPoint.position, Quaternion.identity);
         currentBullet.transform.forward = direction.normalized;
-
         currentBullet.GetComponent<Rigidbody>().AddForce(direction.normalized*shootForce,ForceMode.Impulse);
 
-        if(allowInvoke)
+        if (allowInvoke)
         {
             Invoke("ResetShot", timeBetweenShooting);
                 allowInvoke = false;

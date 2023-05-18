@@ -11,17 +11,31 @@ public class Projectile : MonoBehaviour
         player = GameObject.Find("Player");
         Destroy(gameObject,life);
     }
+  
     private void OnTriggerEnter(Collider col)
     {
-        Debug.Log("ENTERED");
+        //Debug.Log("ENTERED");
         if (col.gameObject.tag == "enemy")
         {
             
             col.gameObject.GetComponent<EnemyAI>().TakeDamage(player.GetComponent<PlayerStats>().attackDamage);
             player.GetComponent<PlayerStats>().IncreaseFrenzy();
             player.GetComponent<PlayerStats>().ResetFrenzyTimer();
-            Debug.Log("ENTERED ENEMY");
+            //Debug.Log("ENTERED ENEMY");
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
+        else if (col.gameObject.tag == "boss")
+        {
+
+            col.gameObject.GetComponent<BossAI>().TakeDamage(player.GetComponent<PlayerStats>().attackDamage);
+            player.GetComponent<PlayerStats>().IncreaseFrenzy();
+            player.GetComponent<PlayerStats>().ResetFrenzyTimer();
+            //Debug.Log("ENTERED ENEMY");
+            Destroy(gameObject);
+        }
+
+
+
     }
+ 
 }

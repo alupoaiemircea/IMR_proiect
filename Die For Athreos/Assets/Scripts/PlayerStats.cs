@@ -126,7 +126,7 @@ public class PlayerStats : MonoBehaviour
         if (!gameObject.GetComponent<PlayerMovement>().dashing)
         {
             player_hurt.Play();
-            currentHealth -= amount/100;
+            currentHealth -= amount;
             sliderHealth.value = currentHealth;
             //Debug.Log(currentHealth);
             if (currentHealth <= 0)

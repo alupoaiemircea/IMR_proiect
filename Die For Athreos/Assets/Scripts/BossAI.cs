@@ -18,6 +18,7 @@ public class BossAI : MonoBehaviour
     //Attacking 
     public float timeBetweenAttacks;
     bool alreadyAttacked;
+    public float damage = 1;
 
     //States
     public float sightRange, attackRange;
@@ -28,7 +29,8 @@ public class BossAI : MonoBehaviour
     public float currentHealth;
     public Slider healthSlider;
     //animation
-   
+
+    private bool staying=false;
     public Animator boss_animator;
     public int xp = 4;
     //flash red when hit
@@ -65,8 +67,9 @@ public class BossAI : MonoBehaviour
 
         if(walkPointSet)
             agent.SetDestination(walkPoint);
-       
-        boss_animator.SetTrigger("walking");
+
+        if (!staying)
+        { boss_animator.SetTrigger("walking"); }
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
@@ -89,6 +92,7 @@ public class BossAI : MonoBehaviour
     }
     private void ChasePlayer()
     {
+        //staying = false;
         agent.SetDestination(player.position);
     }
     private void AttackPlayer()
@@ -100,22 +104,43 @@ public class BossAI : MonoBehaviour
 
         if(!alreadyAttacked)
         {
-            //attack code here
+
+            var rnd = new System.Random();
             
+
+           // if(staying)
+            //{
+               // int j= rnd.Next(0, 2);
+                //if(j==1)
+                //{
+                //    boss_animator.SetTrigger("repeat_attack");
+               // }else
+                //{
+                  //  boss_animator.SetTrigger("switch_attack");
+                //}
+           // }
+           // else
+            //{
+                int i = rnd.Next(0, 2);
+                if (i == 1)
+                { boss_animator.SetTrigger("attack_vertical"); }
+               else
+               { boss_animator.SetTrigger("attack_horizontal");
+               }
+               // staying = true;
+            //}
+            Debug.Log("monster attack");
+
+            //attack code here
+
             GameObject attack = new GameObject();
             attack.AddComponent<Rigidbody>();
             attack.AddComponent<BoxCollider>();
+            attack.GetComponent<BoxCollider>().isTrigger = true;
             attack.tag = "attack";
             attack.AddComponent<Collide>();
-            attack.transform.position=Vector3.MoveTowards(transform.position, player.position, 100f*Time.deltaTime);
-
-            var rnd = new System.Random();
-            int i = rnd.Next(0, 2);
-            if (i == 1)
-            { boss_animator.SetTrigger("attack_vertical"); }
-            else
-            { boss_animator.SetTrigger("attack_horizontal"); }
-            Debug.Log("monster attack");
+            attack.GetComponent<Collide>().damage = damage;
+            attack.transform.position = Vector3.MoveTowards(transform.position, player.position, 100f * Time.deltaTime);
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }

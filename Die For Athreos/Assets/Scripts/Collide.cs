@@ -4,22 +4,22 @@ using UnityEngine;
 
 public class Collide : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // Start is called before the first frame
+    public float damage=1;
     void Start()
     {
         
     }
-
     // Update is called once per frame
     void Update()
     {
        
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider col)
     {
-        if(collision.gameObject.tag =="Player")
+        if(col.gameObject.tag =="Player")
         {
-            collision.gameObject.GetComponent<PlayerStats>().TakeDamage(1);
+            col.gameObject.GetComponent<PlayerStats>().TakeDamage(damage);
         }
         Destroy(gameObject);
     }

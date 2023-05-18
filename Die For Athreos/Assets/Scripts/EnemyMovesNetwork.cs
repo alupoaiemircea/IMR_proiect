@@ -82,7 +82,7 @@ public class EnemyMovesNetwork : MonoBehaviour
             playerAttack = 0f;
         float result = net.FeedForward(new float[] { myX, myY, myZ, playerX, playerY, playerZ, playerHealth, playerAttack })[0];
         int action = (int)System.Math.Round(result*10, 0);
-            Debug.Log(action);
+            //Debug.Log(action);
         switch (action)
         {
             case 1:

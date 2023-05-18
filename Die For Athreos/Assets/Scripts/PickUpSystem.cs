@@ -12,7 +12,7 @@ public class PickUpSystem : MonoBehaviour
     GameObject left_currentWeapon = null;
     GameObject wp;
     public GameObject tangram_puzzle;
-   
+    public UnityEngine.UI.Image crosshair;
     bool canGrab;
 
     private int inHandLayer;
@@ -23,7 +23,7 @@ public class PickUpSystem : MonoBehaviour
     private void Awake()
     {
         inHandLayer= LayerMask.NameToLayer("InHand");
-
+        crosshair.enabled = false;
     }
     private void Update()
     {
@@ -141,6 +141,10 @@ public class PickUpSystem : MonoBehaviour
     {
         int defalutLayer = LayerMask.NameToLayer("Default");
         right_currentWeapon.layer=defalutLayer;
+        if(right_currentWeapon.tag=="scepter")
+        {
+            crosshair.enabled = false;  
+        }
         right_hand_Animator.SetTrigger("isDropping");
         right_currentWeapon.transform.parent = null;
         right_currentWeapon.GetComponent<Rigidbody>().isKinematic = false;
@@ -231,6 +235,7 @@ public class PickUpSystem : MonoBehaviour
             {
                 obj.transform.localEulerAngles = new Vector3(0f, 30f, 90f);
                 obj.transform.localPosition = new Vector3(0.0324f, 0.0089f, -0.0266f);
+                crosshair.enabled = true;
             }
             else
               if (obj.tag == "dagger")
@@ -262,6 +267,7 @@ public class PickUpSystem : MonoBehaviour
             {
                 obj.transform.localEulerAngles = new Vector3(0f, 30f, 90f);
                 obj.transform.localPosition = new Vector3(0.0324f, 0.0089f, -0.0266f);
+                crosshair.enabled = true;
             }
             else
               if (obj.tag == "dagger")
