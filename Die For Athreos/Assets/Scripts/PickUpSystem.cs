@@ -88,6 +88,7 @@ public class PickUpSystem : MonoBehaviour
                 
                 canGrab = true;
                 wp = hit.transform.gameObject;
+                wp.GetComponent<Rigidbody>().detectCollisions = false;
 
             }
             if (hit.transform.tag == "dagger")
@@ -143,7 +144,8 @@ public class PickUpSystem : MonoBehaviour
         right_currentWeapon.layer=defalutLayer;
         if(right_currentWeapon.tag=="scepter")
         {
-            crosshair.enabled = false;  
+            crosshair.enabled = false;
+            right_currentWeapon.GetComponentInChildren<Rigidbody>().detectCollisions = true;
         }
         right_hand_Animator.SetTrigger("isDropping");
         right_currentWeapon.transform.parent = null;

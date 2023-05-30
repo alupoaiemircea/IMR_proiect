@@ -28,21 +28,21 @@ public class MainMenuScript : MonoBehaviour
     }
     public void SelectAssasin()
     {
-        PlayerInfo playerInfo = new PlayerInfo(6, 13, 2f);
+        PlayerInfo playerInfo = new PlayerInfo(6, 13, 2f,1);
         string jsonString = JsonConvert.SerializeObject(playerInfo);
         File.WriteAllText("playerStatsStart.txt", jsonString);
         SceneManager.LoadScene("MainScene");
     }
     public void SelectMage()
     {
-        PlayerInfo playerInfo = new PlayerInfo(14, 6, 0.5f);
+        PlayerInfo playerInfo = new PlayerInfo(14, 6, 0.5f,2);
         string jsonString = JsonConvert.SerializeObject(playerInfo);
         File.WriteAllText("playerStatsStart.txt", jsonString);
         SceneManager.LoadScene("MainScene");
     }
     public void SelectWarrior()
     {
-       PlayerInfo playerInfo = new PlayerInfo(10,10,1);
+       PlayerInfo playerInfo = new PlayerInfo(10,10,1,0);
         string jsonString = JsonConvert.SerializeObject(playerInfo);
         File.WriteAllText("playerStatsStart.txt", jsonString);
         SceneManager.LoadScene("MainScene");
@@ -53,10 +53,12 @@ public class PlayerInfo
     public float maxHealth;
     public float maxStamina;
     public float attackDamage;
-    public PlayerInfo(float maxHealth, float maxStamina, float attackDamge)
+    public int category;
+    public PlayerInfo(float maxHealth, float maxStamina, float attackDamge, int category)
     {
        this.maxHealth = maxHealth;  
        this.maxStamina = maxStamina;    
        this.attackDamage = attackDamge;
+       this.category = category;
     }
 }

@@ -38,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3995064890600258255, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: m_AgentTypeID
-      value: -334000983
+      value: 1479372276
       objectReference: {fileID: 0}
     - target: {fileID: 4534503547536660530, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: m_RootOrder
@@ -118,11 +118,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7396737702772324975, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: xp
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7396737702772324975, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: damage
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7396737702772324975, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: flashTime
@@ -130,7 +130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7396737702772324975, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: maxHealth
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7396737702772324975, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: timeBetweenAttacks

@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
 {
     public float life = 3f;
     private GameObject player;
+    public int damage = 1;
     private void Awake()
     {
         player = GameObject.Find("Player");
@@ -18,7 +19,7 @@ public class Projectile : MonoBehaviour
         if (col.gameObject.tag == "enemy")
         {
             
-            col.gameObject.GetComponent<EnemyAI>().TakeDamage(player.GetComponent<PlayerStats>().attackDamage);
+            col.gameObject.GetComponent<EnemyAI>().TakeDamage(player.GetComponent<PlayerStats>().attackDamage+ damage);
             player.GetComponent<PlayerStats>().IncreaseFrenzy();
             player.GetComponent<PlayerStats>().ResetFrenzyTimer();
             //Debug.Log("ENTERED ENEMY");
@@ -27,7 +28,7 @@ public class Projectile : MonoBehaviour
         else if (col.gameObject.tag == "boss")
         {
 
-            col.gameObject.GetComponent<BossAI>().TakeDamage(player.GetComponent<PlayerStats>().attackDamage);
+            col.gameObject.GetComponent<BossAI>().TakeDamage(player.GetComponent<PlayerStats>().attackDamage+ damage);
             player.GetComponent<PlayerStats>().IncreaseFrenzy();
             player.GetComponent<PlayerStats>().ResetFrenzyTimer();
             //Debug.Log("ENTERED ENEMY");

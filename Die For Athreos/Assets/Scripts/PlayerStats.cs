@@ -31,6 +31,9 @@ public class PlayerStats : MonoBehaviour
     [Header("Attack")]
     public float attackDamage;
     public float attackValue;
+    public GameObject sword;
+    public GameObject dagger;
+    public GameObject scepter;
 
     [Header("Frenzy")]
     private float maxFrenzy;
@@ -61,11 +64,26 @@ public class PlayerStats : MonoBehaviour
         SetMaxHealth(playerInfo.maxHealth);
         SetAttackDamage(playerInfo.attackDamage);
         SetMaxStamina(playerInfo.maxStamina);
+        switch (playerInfo.category)
+        {
+            case 0:
+                sword.SetActive(true);
+                break;
+            case 1:
+                dagger.SetActive(true);
+                break;
+            default:
+                scepter.SetActive(true);
+                break;
+        }
         escMenuScreen.GetComponent<EscMenuScreen>().ResizeBar(true,playerInfo.maxHealth);
         escMenuScreen.GetComponent<EscMenuScreen>().ResizeBar(false,playerInfo.maxStamina);
     }
     void Start()
     {
+        sword.SetActive(false);
+        dagger.SetActive(false);
+        scepter.SetActive(false);
         LoadStats();
         currentHealth = maxHealth;
         sliderHealth.value = currentHealth;
@@ -291,7 +309,7 @@ public class PlayerStats : MonoBehaviour
     public void AddXp(int xp)
     {
         current_xp += xp;
-        if(current_xp>xp_to_lvl_up)
+        while(current_xp>xp_to_lvl_up)
         {
             current_lvl++;
             lvl_up_points++;

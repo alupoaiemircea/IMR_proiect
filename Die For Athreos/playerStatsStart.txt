@@ -1,1 +1,1 @@
-{"maxHealth":10.0,"maxStamina":10.0,"attackDamage":1.0}
+{"maxHealth":14.0,"maxStamina":6.0,"attackDamage":0.5,"category":2}

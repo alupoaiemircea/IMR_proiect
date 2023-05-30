@@ -53,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3865806325554053768, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: m_Name
-      value: monster ranged
+      value: monster ranged Variant
       objectReference: {fileID: 0}
     - target: {fileID: 3865806325554053768, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: m_TagString
@@ -144,12 +144,24 @@ PrefabInstance:
       value: Mesh
       objectReference: {fileID: 0}
     - target: {fileID: 7396737702772324975, guid: c32a2d0091571474d96051903645a071, type: 3}
+      propertyPath: xp
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7396737702772324975, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: type
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7396737702772324975, guid: c32a2d0091571474d96051903645a071, type: 3}
+      propertyPath: damage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7396737702772324975, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: flashTime
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7396737702772324975, guid: c32a2d0091571474d96051903645a071, type: 3}
+      propertyPath: maxHealth
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7396737702772324975, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: shootForce

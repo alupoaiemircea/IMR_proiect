@@ -536,24 +536,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ddc1a1d0b0584e40800a1dc87ef2bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  agent: {fileID: 0}
-  player: {fileID: 0}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 128
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 256
+  type: 0
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 5
   timeBetweenAttacks: 2
+  attacking: 0
+  damage: 3
+  shootForce: 1
+  enemy_shoot: {fileID: 0}
   sightRange: 10
   attackRange: 2
   playerInSightRange: 0
   playerInAttackRange: 0
-  maxHealth: 3
+  maxHealth: 6
   currentHealth: 0
   animator: {fileID: 8873722270995078218}
+  boss_animator: {fileID: 0}
+  xp: 4
+  flashTime: 0
 --- !u!95 &8873722270995078218
 Animator:
   serializedVersion: 4
