@@ -191,10 +191,7 @@ public class PlayerStats : MonoBehaviour
             }
             if (currentStamina < 0.05f)
             {
-                //Debug.Log("FATIGUE");
-
                 tiredSoundEffect.Play();
-
                 if (Input.GetKey(KeyCode.Space))
                 {
                     gameObject.GetComponent<PlayerMovement>().fatigue = true;
@@ -204,10 +201,7 @@ public class PlayerStats : MonoBehaviour
                 gameObject.GetComponent<PlayerMovement>().fatigue = true;
                 
                 penalty = true;
-                FatiquePenalty();
-                Debug.Log("penalty="+(penalty));
-                
-                
+                FatiquePenalty();      
             }
             if (currentStamina < 0)
             {

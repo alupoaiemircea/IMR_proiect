@@ -39,30 +39,18 @@ public class PickUpSystem : MonoBehaviour
             if(left_currentWeapon==null || right_currentWeapon==null)
             {
                 if (Input.GetKeyDown(KeyCode.E))
-                {
-                    //if(right_currentWeapon != null)
-                    //{
-                    //    Drop();
-                    //}
+                {            
                     PickUp();
-
-
                 }
-            }
-            
-           
+            }          
         }
         if(right_currentWeapon != null)
         { if (Input.GetKeyDown(KeyCode.Q))
-            {
-               
-                Drop();
-                
-                
+            {              
+                Drop();             
             } 
         }
-        if((left_currentWeapon != null || right_currentWeapon != null) && Input.GetKeyDown(KeyCode.F)) { Switch(); }
-        
+        if((left_currentWeapon != null || right_currentWeapon != null) && Input.GetKeyDown(KeyCode.F)) { Switch(); }       
     }
     private void CheckWeapons()
     {
