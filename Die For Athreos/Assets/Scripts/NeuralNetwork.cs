@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 using UnityEngine;
-
+//adaptat:https://github.com/kipgparker/BackPropNetwork
 public class NeuralNetwork : MonoBehaviour
 {
     //fundamental 

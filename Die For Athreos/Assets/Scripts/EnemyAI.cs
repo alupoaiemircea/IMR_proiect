@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-//preluat: https://www.youtube.com/watch?v=UjkSFoLxesw&t=267s
+//adaptat: https://www.youtube.com/watch?v=UjkSFoLxesw&t=267s
 public class EnemyAI : MonoBehaviour
 {
     private NavMeshAgent agent;

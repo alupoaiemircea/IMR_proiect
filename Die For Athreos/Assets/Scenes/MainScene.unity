@@ -30775,7 +30775,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 387250345}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 251.70107, y: 0.99, z: 230.02388}
+  m_LocalPosition: {x: 99.54, y: 1.09, z: 356.5463}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -62081,7 +62081,7 @@ LightingSettings:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   serializedVersion: 5
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_EnableBakedLightmaps: 1
   m_EnableRealtimeLightmaps: 0
   m_RealtimeEnvironmentLighting: 1
@@ -68963,7 +68963,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1912185728}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c1ad228e111cd64c958738eed700a3e, type: 3}
   m_Name: 
@@ -69012,7 +69012,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4534503547536660530, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 118.89
+      value: 114.49
       objectReference: {fileID: 0}
     - target: {fileID: 4534503547536660530, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: m_LocalPosition.y
@@ -69020,7 +69020,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4534503547536660530, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 379.82
+      value: 358.49
       objectReference: {fileID: 0}
     - target: {fileID: 4534503547536660530, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: m_LocalRotation.w
@@ -69050,6 +69050,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5206954923611753635, guid: c32a2d0091571474d96051903645a071, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: cb3c1ab2a02e785439468da0b8b13468, type: 2}
     - target: {fileID: 5710632893636337386, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: m_Name
       value: Mesh
@@ -69064,7 +69068,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7396737702772324975, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7396737702772324975, guid: c32a2d0091571474d96051903645a071, type: 3}
       propertyPath: maxHealth

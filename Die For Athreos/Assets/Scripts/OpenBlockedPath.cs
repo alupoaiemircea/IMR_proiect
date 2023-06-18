@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//done by me
 public class OpenBlockedPath : MonoBehaviour
 {
     // Start is called before the first frame update

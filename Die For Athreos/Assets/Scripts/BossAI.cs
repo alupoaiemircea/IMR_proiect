@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
-//preluat: https://www.youtube.com/watch?v=UjkSFoLxesw&t=267s
+//adaptat: https://www.youtube.com/watch?v=UjkSFoLxesw&t=267s
 public class BossAI : MonoBehaviour
 {
     private NavMeshAgent agent;
@@ -160,6 +160,7 @@ public class BossAI : MonoBehaviour
         {
             Destroy(gameObject);
             player.gameObject.GetComponent<PlayerStats>().AddXp(xp);
+            healthSlider.gameObject.SetActive(false);
         }
     }
     void FlashRed()

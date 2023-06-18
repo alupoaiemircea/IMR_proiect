@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using System.IO;
 using System.Globalization;
-
+//adaptat:https://github.com/kipgparker/BackPropNetwork
 public struct Line
 {
     public float x1;

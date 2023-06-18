@@ -76,7 +76,7 @@ public class PickUpSystem : MonoBehaviour
                 
                 canGrab = true;
                 wp = hit.transform.gameObject;
-                wp.GetComponent<Rigidbody>().detectCollisions = false;
+              
 
             }
             if (hit.transform.tag == "dagger")
@@ -91,7 +91,6 @@ public class PickUpSystem : MonoBehaviour
                 Debug.Log("health time");
                 canGrab = true;
                 wp = hit.transform.gameObject;
-             
             }
 
         }
@@ -133,6 +132,10 @@ public class PickUpSystem : MonoBehaviour
         if(right_currentWeapon.tag=="scepter")
         {
             crosshair.enabled = false;
+            right_currentWeapon.GetComponentInChildren<Rigidbody>().detectCollisions = true;
+        }
+        if (right_currentWeapon.tag == "HealthPotion")
+        {
             right_currentWeapon.GetComponentInChildren<Rigidbody>().detectCollisions = true;
         }
         right_hand_Animator.SetTrigger("isDropping");
@@ -219,6 +222,7 @@ public class PickUpSystem : MonoBehaviour
             {
                 obj.transform.localEulerAngles = new Vector3(0f, 0f, 90f);
                 obj.transform.localPosition = new Vector3(0f, 0.015f, 0f);
+                wp.GetComponent<Rigidbody>().detectCollisions = false;
             }
             else
               if (obj.tag == "scepter")
@@ -226,6 +230,7 @@ public class PickUpSystem : MonoBehaviour
                 obj.transform.localEulerAngles = new Vector3(0f, 30f, 90f);
                 obj.transform.localPosition = new Vector3(0.0324f, 0.0089f, -0.0266f);
                 crosshair.enabled = true;
+                wp.GetComponent<Rigidbody>().detectCollisions = false;
             }
             else
               if (obj.tag == "dagger")
@@ -251,6 +256,7 @@ public class PickUpSystem : MonoBehaviour
             {
                 obj.transform.localEulerAngles = new Vector3(0f, 0f, 90f);
                 obj.transform.localPosition = new Vector3(0f, 0.015f, 0f);
+                wp.GetComponent<Rigidbody>().detectCollisions = false;
             }
             else
               if (obj.tag == "scepter")
@@ -258,6 +264,7 @@ public class PickUpSystem : MonoBehaviour
                 obj.transform.localEulerAngles = new Vector3(0f, 30f, 90f);
                 obj.transform.localPosition = new Vector3(0.0324f, 0.0089f, -0.0266f);
                 crosshair.enabled = true;
+                wp.GetComponent<Rigidbody>().detectCollisions = false;
             }
             else
               if (obj.tag == "dagger")
